@@ -49,12 +49,14 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 
 }
 
-// add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
+// Add click events only if modal elements exist
+if (modalCloseBtn) {
+  modalCloseBtn.addEventListener("click", testimonialsModalFunc);
+}
 
-
-
+if (overlay) {
+  overlay.addEventListener("click", testimonialsModalFunc);
+}
 // custom select variables
 const select = document.querySelector("[data-select]");
 const selectItems = document.querySelectorAll("[data-select-item]");
@@ -136,10 +138,29 @@ for (let i = 0; i < formInputs.length; i++) {
 
 
 
-// page navigation variables
+// Page navigation
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
+navigationLinks.forEach((link) => {
+  link.addEventListener("click", function () {
+
+    const targetPage = this.textContent.trim().toLowerCase();
+
+    pages.forEach((page) => {
+      page.classList.toggle(
+        "active",
+        page.dataset.page === targetPage
+      );
+    });
+
+    navigationLinks.forEach((navLink) => {
+      navLink.classList.toggle("active", navLink === this);
+    });
+
+    window.scrollTo(0, 0);
+  });
+});
 // add event to all nav link
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
